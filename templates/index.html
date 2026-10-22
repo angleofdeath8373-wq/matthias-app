@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماتیاس (Matthias v13.0 Ultimate Dark Fantasy Edition)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Vazirmatn Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        themeBg: 'var(--color-bg)',
+                        themePanel: 'var(--color-panel)',
+                        themeCard: 'var(--color-card)',
+                        themeBorder: 'var(--color-border)',
+                        themeGold: 'var(--color-gold)',
+                        themeGoldHover: 'var(--color-gold-hover)',
+                        themeAccent: 'var(--color-accent)',
+                        themeGlow: 'var(--color-glow)',
+                        themeText: 'var(--color-text)',
+                        themeTextMuted: 'var(--color-text-muted)'
+                    },
+                    fontFamily: { vazir: ['Vazirmatn', 'sans-serif'] },
+                    boxShadow: {
+                        'gold-glow': '0 0 25px var(--color-glow)',
+                        'card-depth': '0 20px 30px -10px rgba(0,0,0,0.8), 0 0 15px rgba(226,185,59,0.15)',
+                        '3d-book': '12px 12px 25px rgba(0,0,0,0.9), -2px 0 10px rgba(255,255,255,0.05) inset'
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite ease-in-out',
+                        'float': 'float 6s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px var(--color-glow)' },
+                            '50%': { boxShadow: '0 0 35px var(--color-glow), 0 0 15px var(--color-gold)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            /* Preset 1: Gothic Emerald & Gold (Default) */
+            --color-bg: #030804;
+            --color-panel: rgba(8, 17, 9, 0.92);
+            --color-card: #0d1b0f;
+            --color-border: rgba(226, 185, 59, 0.3);
+            --color-gold: #e2b93b;
+            --color-gold-hover: #f3d068;
+            --color-accent: #00ff88;
+            --color-glow: rgba(226, 185, 59, 0.25);
+            --color-text: #f3f6f3;
+            --color-text-muted: #8a9f8c;
+        }
+
+        .theme-cyber {
+            /* Preset 2: Cyber Neon Mint */
+            --color-bg: #04090f;
+            --color-panel: rgba(7, 16, 27, 0.92);
+            --color-card: #0b1a2b;
+            --color-border: rgba(0, 240, 255, 0.3);
+            --color-gold: #00f0ff;
+            --color-gold-hover: #70f6ff;
+            --color-accent: #ff0055;
+            --color-glow: rgba(0, 240, 255, 0.3);
+            --color-text: #f0f8ff;
+            --color-text-muted: #7f9bb3;
+        }
+
+        .theme-ruby {
+            /* Preset 3: Obsidian & Ruby */
+            --color-bg: #0d0304;
+            --color-panel: rgba(23, 7, 9, 0.92);
+            --color-card: #1f0b0e;
+            --color-border: rgba(255, 51, 102, 0.35);
+            --color-gold: #ff3366;
+            --color-gold-hover: #ff668c;
+            --color-accent: #ffcc00;
+            --color-glow: rgba(255, 51, 102, 0.3);
+            --color-text: #fff0f3;
+            --color-text-muted: #b37f8a;
+        }
+
+        .theme-royal {
+            /* Preset 4: Royal Velvet Purple */
+            --color-bg: #07040d;
+            --color-panel: rgba(16, 8, 28, 0.92);
+            --color-card: #170d29;
+            --color-border: rgba(187, 107, 255, 0.35);
+            --color-gold: #bb6bff;
+            --color-gold-hover: #d299ff;
+            --color-accent: #00e5ff;
+            --color-glow: rgba(187, 107, 255, 0.3);
+            --color-text: #f8f0ff;
+            --color-text-muted: #a08bb3;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Glassmorphism Effects */
+        .glass-panel {
+            background: var(--color-panel);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--color-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.7);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, var(--color-card), rgba(0,0,0,0.6));
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--color-border);
+        }
+
+        /* Particles canvas overlay */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 7px; height: 7px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { 
+            background: var(--color-gold); 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-gold-hover); }
+
+        /* 3D Book Cover Hover Effect */
+        .book-container {
+            perspective: 1000px;
+        }
+        .book-cover {
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease;
+        }
+        .book-container:hover .book-cover {
+            transform: rotateY(-18deg) rotateX(8deg) scale(1.03);
+        }
+
+        /* Spine Effect */
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+            z-index: 10;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .gold-border-glow {
+            box-shadow: 0 0 15px var(--color-glow);
+        }
+
+        /* Tab Active Underline Animation */
+        .tab-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 15%;
+            width: 70%;
+            height: 3px;
+            background: var(--color-gold);
+            border-radius: 3px;
+            box-shadow: 0 0 10px var(--color-gold);
+        }
+    </style>
+</head>
+<body class="custom-scrollbar min-h-screen flex flex-col relative">
+
+    <!-- Particle Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- App Container -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- ==================== MAIN HEADER ==================== -->
+        <header class="glass-panel sticky top-0 z-40 px-4 md:px-8 py-3.5 flex items-center justify-between border-b transition-all">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-600 via-amber-400 to-yellow-200 flex items-center justify-center text-black font-black text-2xl shadow-gold-glow animate-pulse-glow cursor-pointer" onclick="switchTab('library')">
+                    <i class="fas fa-crown text-black text-xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl md:text-2xl font-black text-themeGold tracking-wider drop-shadow-md">MATTHIAS</h1>
+                        <span class="text-[10px] font-extrabold bg-themeGold/20 text-themeGold border border-themeGold/40 px-2 py-0.5 rounded-full uppercase tracking-widest">v13.0 Ultimate</span>
+                    </div>
+                    <p class="text-xs text-themeTextMuted hidden sm:block">سامانه شاهکار مدیریت، مطالعه و آرشیو لوکس مانهوا</p>
+                </div>
+            </div>
+
+            <!-- Header Controls & Actions -->
+            <div class="flex items-center gap-2.5">
+                <!-- Ambient Audio Switch -->
+                <button onclick="toggleAmbientSound()" id="ambient-btn" class="glass-card hover:border-themeGold text-themeGold px-3.5 py-2 rounded-xl transition text-xs font-bold flex items-center gap-2">
+                    <i class="fas fa-volume-mute" id="ambient-icon"></i>
+                    <span id="ambient-text" class="hidden md:inline">صداهای محیطی</span>
+                </button>
+
+                <!-- Theme Customizer Trigger -->
+                <button onclick="openThemeModal()" class="glass-card hover:border-themeGold text-themeGold px-3.5 py-2 rounded-xl transition text-xs font-bold flex items-center gap-2" title="تغییر تم دیداری">
+                    <i class="fas fa-palette text-sm"></i>
+                    <span class="hidden md:inline">پوسته</span>
+                </button>
+
+                <!-- Backup Button -->
+                <button onclick="exportData()" class="glass-card hover:border-themeGold text-themeGold px-3.5 py-2 rounded-xl transition text-xs font-bold flex items-center gap-2">
+                    <i class="fas fa-file-export"></i>
+                    <span class="hidden lg:inline">پشتیبان</span>
+                </button>
+
+                <!-- Telegram Sync Button -->
+                <button onclick="syncWithTelegram()" class="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 hover:opacity-90 text-black font-black px-4 py-2 rounded-xl transition shadow-gold-glow text-xs flex items-center gap-2">
+                    <i class="fab fa-telegram-plane text-sm"></i>
+                    <span>همگام‌سازی</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ==================== TABS NAVIGATION ==================== -->
+        <nav class="glass-panel border-b border-white/5 px-4 md:px-8 py-2.5 flex items-center justify-between overflow-x-auto custom-scrollbar sticky top-[73px] z-30">
+            <div class="flex items-center gap-2 md:gap-4 min-w-max">
+                <button onclick="switchTab('library')" id="tab-btn-library" class="tab-btn active px-4 py-2.5 rounded-xl text-xs font-bold text-themeGold flex items-center gap-2">
+                    <i class="fas fa-books text-base"></i>
+                    <span>آرشیو کتابخانه</span>
+                    <span id="badge-count-lib" class="bg-themeGold/20 text-themeGold text-[10px] px-2 py-0.5 rounded-full border border-themeGold/30">۰</span>
+                </button>
+
+                <button onclick="switchTab('add')" id="tab-btn-add" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold text-themeTextMuted hover:text-themeText flex items-center gap-2">
+                    <i class="fas fa-plus-circle text-base"></i>
+                    <span>افزودن مانهوا جدید</span>
+                </button>
+
+                <button onclick="switchTab('analytics')" id="tab-btn-analytics" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold text-themeTextMuted hover:text-themeText flex items-center gap-2">
+                    <i class="fas fa-chart-line text-base"></i>
+                    <span>تحلیل و آمار مالی</span>
+                </button>
+
+                <button onclick="switchTab('telegram')" id="tab-btn-telegram" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold text-themeTextMuted hover:text-themeText flex items-center gap-2">
+                    <i class="fab fa-telegram text-base"></i>
+                    <span>ربات تلگرام و ترمینال</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                </button>
+            </div>
+
+            <!-- View Switchers (Grid/List) -->
+            <div class="hidden sm:flex items-center gap-1 glass-card p-1 rounded-xl">
+                <button onclick="setViewMode('grid')" id="view-grid-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-themeGold text-black transition shadow-md">
+                    <i class="fas fa-th-large"></i>
+                </button>
+                <button onclick="setViewMode('list')" id="view-list-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold text-themeTextMuted hover:text-themeText transition">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- ==================== MAIN CONTENT AREA ==================== -->
+        <main class="container mx-auto p-4 md:p-8 flex-1 space-y-6">
+
+            <!-- ================= TAB 1: LIBRARY ================= -->
+            <div id="tab-library" class="space-y-6">
+                <!-- Filter Bar -->
+                <div class="glass-panel p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4">
+                    <!-- Search Input -->
+                    <div class="relative flex-1 min-w-[260px]">
+                        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-themeTextMuted"></i>
+                        <input type="text" id="search-input" onkeyup="filterLibrary()" placeholder="جستجوی عنوان، ژانر، مترجم..." 
+                               class="w-full bg-black/40 border border-themeBorder rounded-xl pr-11 pl-4 py-2.5 text-xs text-themeText focus:outline-none focus:border-themeGold transition shadow-inner">
+                    </div>
+
+                    <!-- Filters Dropdowns -->
+                    <div class="flex items-center gap-3 flex-wrap text-xs">
+                        <!-- Status Filter -->
+                        <select id="status-filter" onchange="filterLibrary()" class="bg-black/40 border border-themeBorder text-themeText px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-themeGold">
+                            <option value="ALL">همه وضعیت‌ها</option>
+                            <option value="FAV">⭐ نشان‌شده‌ها (علاقه‌مندی)</option>
+                            <option value="COMPLETED">کامل شده</option>
+                            <option value="ONGOING">در حال انتشار</option>
+                        </select>
+
+                        <!-- Genre Filter -->
+                        <select id="genre-filter" onchange="filterLibrary()" class="bg-black/40 border border-themeBorder text-themeText px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-themeGold">
+                            <option value="ALL">همه ژانرها</option>
+                            <option value="اکشن">اکشن</option>
+                            <option value="فانتزی">فانتزی</option>
+                            <option value="سیستم">سیستم</option>
+                            <option value="تناسخ">تناسخ</option>
+                            <option value="درام">درام</option>
+                        </select>
+
+                        <!-- Sort Filter -->
+                        <select id="sort-filter" onchange="filterLibrary()" class="bg-black/40 border border-themeBorder text-themeText px-3.5 py-2.5 rounded-xl focus:outline-none focus:border-themeGold">
+                            <option value="NEWEST">جدیدترین‌ها</option>
+                            <option value="RATING">بیشترین امتیاز</option>
+                            <option value="CHAPTERS">بیشترین چپتر</option>
+                            <option value="PRICE">گران‌ترین</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Manhwa Grid / List Display -->
+                <div id="manhwa-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Cards are dynamically rendered via JavaScript -->
+                </div>
+            </div>
+
+            <!-- ================= TAB 2: ADD MANHWA FORM ================= -->
+            <div id="tab-add" class="hidden max-w-4xl mx-auto glass-panel p-6 md:p-10 rounded-3xl space-y-8 shadow-card-depth">
+                <div class="border-b border-themeBorder pb-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-lg font-bold text-themeGold flex items-center gap-2">
+                            <i class="fas fa-plus-circle"></i> ثبت دستی مانهوا جدید در آرشیو
+                        </h2>
+                        <p class="text-xs text-themeTextMuted mt-1">مشخصات مانهوا را به همراه لینک کاور وارد کنید تا به کتابخانه اضافه شود.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Cover Live Preview Box -->
+                    <div class="space-y-3 flex flex-col items-center">
+                        <label class="block text-xs font-bold text-themeTextMuted">پیش‌نمایش کاور (۳D):</label>
+                        <div class="book-container w-48 h-68 relative">
+                            <div class="book-cover w-full h-full rounded-xl overflow-hidden shadow-3d-book border border-themeBorder bg-black/60 relative">
+                                <img id="add-cover-preview" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Inputs -->
+                    <div class="md:col-span-2 space-y-4 text-xs">
+                        <div>
+                            <label class="block text-themeTextMuted mb-1.5 font-bold">عنوان مانهوا *:</label>
+                            <input type="text" id="new-title" placeholder="مثلا: Solo Leveling" class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-themeTextMuted mb-1.5 font-bold">تعداد کل چپترها:</label>
+                                <input type="number" id="new-chapters" value="100" class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-themeTextMuted mb-1.5 font-bold">ارزش/قیمت کل (تومان):</label>
+                                <input type="number" id="new-price" value="50000" class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-themeTextMuted mb-1.5 font-bold">ژانرها (با کاما جدا کنید):</label>
+                                <input type="text" id="new-genre" placeholder="اکشن، سیستم، تناسخ" class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-themeTextMuted mb-1.5 font-bold">تیم مترجم:</label>
+                                <input type="text" id="new-translator" placeholder="مثلا: تیم ترجمه ماتیاس" class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-themeTextMuted mb-1.5 font-bold">وضعیت انتشار:</label>
+                                <select id="new-status" class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none">
+                                    <option value="در حال انتشار">در حال انتشار</option>
+                                    <option value="کامل شده">کامل شده</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-themeTextMuted mb-1.5 font-bold">امتیاز اولیه (از ۵):</label>
+                                <input type="number" id="new-rating" min="1" max="5" step="0.1" value="4.8" class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-themeTextMuted mb-1.5 font-bold">آدرس اینترنتی کاور (URL):</label>
+                            <input type="text" id="new-cover" oninput="updateCoverPreview(this.value)" placeholder="https://images.unsplash.com/..." class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-themeTextMuted mb-1.5 font-bold">خلاصه داستان / توضیحات:</label>
+                            <textarea id="new-synopsis" rows="3" placeholder="توضیح مختصری از داستان مانهوا..." class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText focus:border-themeGold focus:outline-none custom-scrollbar"></textarea>
+                        </div>
+
+                        <button onclick="addNewManhwaManual()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:opacity-90 text-black font-black py-3.5 rounded-xl text-sm transition shadow-gold-glow mt-4">
+                            <i class="fas fa-save ml-2"></i> ذخیره نهایی در آرشیو ماتیاس
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB 3: FINANCIAL & ANALYTICS ================= -->
+            <div id="tab-analytics" class="hidden max-w-5xl mx-auto space-y-6">
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="glass-panel p-5 rounded-2xl space-y-2 border-r-4 border-r-themeGold">
+                        <p class="text-xs text-themeTextMuted font-bold">ارزش کل آرشیو</p>
+                        <p class="text-2xl font-black text-themeGold" id="stat-total-val">۰ تومان</p>
+                        <p class="text-[10px] text-emerald-400"><i class="fas fa-arrow-up"></i> محاسبه شده براساس قیمت ثبت شده</p>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl space-y-2 border-r-4 border-r-emerald-400">
+                        <p class="text-xs text-themeTextMuted font-bold">مجموع کل چپترها</p>
+                        <p class="text-2xl font-black text-emerald-400" id="stat-total-ch">۰</p>
+                        <p class="text-[10px] text-themeTextMuted">چپترهای ذخیره شده در دیتابیس</p>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl space-y-2 border-r-4 border-r-amber-400">
+                        <p class="text-xs text-themeTextMuted font-bold">میانگین ارزش چپتر</p>
+                        <p class="text-2xl font-black text-amber-400" id="stat-avg-price">۰ تومان</p>
+                        <p class="text-[10px] text-themeTextMuted">هزینه تخمینی هر چپتر ترجمه شده</p>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl space-y-2 border-r-4 border-r-rose-400">
+                        <p class="text-xs text-themeTextMuted font-bold">میزان پیشرفت مطالعه</p>
+                        <p class="text-2xl font-black text-rose-400" id="stat-progress-pct">۰٪</p>
+                        <p class="text-[10px] text-themeTextMuted">درصد خوانده شده از کل آرشیو</p>
+                    </div>
+                </div>
+
+                <!-- Custom Visual Charts Representation -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Genre Breakdown Chart -->
+                    <div class="glass-panel p-6 rounded-3xl space-y-4">
+                        <h3 class="text-xs font-bold text-themeGold flex items-center gap-2 border-b border-white/5 pb-3">
+                            <i class="fas fa-chart-pie"></i> تفکیک موضوعی و ژانرها
+                        </h3>
+                        <div id="chart-genre-bars" class="space-y-3 text-xs">
+                            <!-- Bars populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Top Expensive Archives -->
+                    <div class="glass-panel p-6 rounded-3xl space-y-4">
+                        <h3 class="text-xs font-bold text-themeGold flex items-center gap-2 border-b border-white/5 pb-3">
+                            <i class="fas fa-gem"></i> ارزشمندترین مانهواهای موجود
+                        </h3>
+                        <div id="chart-top-value" class="space-y-3 text-xs">
+                            <!-- List populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB 4: TELEGRAM BOT & TERMINAL ================= -->
+            <div id="tab-telegram" class="hidden max-w-4xl mx-auto space-y-6">
+                <div class="glass-panel p-6 md:p-8 rounded-3xl space-y-6 shadow-card-depth">
+                    <div class="flex flex-wrap justify-between items-center border-b border-themeBorder pb-4 gap-4">
+                        <div>
+                            <h2 class="text-base font-bold text-themeGold flex items-center gap-2">
+                                <i class="fab fa-telegram-plane text-xl"></i> وضعیت اتصال ربات و ترمینال آنلاین
+                            </h2>
+                            <p class="text-xs text-themeTextMuted mt-1">مدیریت فایل‌ها، عکس‌ها و ارسال خودکار چپترها از تلگرام به ماتیاس</p>
+                        </div>
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs px-3 py-1 rounded-full font-bold flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            Webhook Active
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                        <div class="glass-card p-4 rounded-2xl space-y-2">
+                            <p class="text-themeTextMuted">آیدی ربات اختصاصی:</p>
+                            <p class="text-themeGold font-bold text-sm">@MatthiasArchiveBot</p>
+                        </div>
+                        <div class="glass-card p-4 rounded-2xl space-y-2">
+                            <p class="text-themeTextMuted">کلید دسترسی (Token):</p>
+                            <p class="font-mono text-emerald-400 truncate">8642920714:AAHQlTd2KDtx3riU8qkp1C5ElPU_igVdUO0</p>
+                        </div>
+                    </div>
+
+                    <!-- Live Terminal Output -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-xs font-bold text-themeTextMuted">ترمینال گزارش رویدادها (Terminal Console):</h3>
+                            <button onclick="clearTerminal()" class="text-[10px] text-themeGold hover:underline">پاکسازی لاگ‌ها</button>
+                        </div>
+                        <div id="terminal-log" class="bg-black/80 border border-themeBorder p-4 rounded-2xl font-mono text-[11px] text-emerald-400 h-52 overflow-y-auto space-y-1.5 custom-scrollbar shadow-inner">
+                            <div><span class="text-themeGold">[System]</span> Matthias v13.0 Ultimate Dark Fantasy initialized.</div>
+                            <div><span class="text-emerald-400">[Telegram]</span> Long polling webhook initialized on port 5000.</div>
+                            <div><span class="text-themeTextMuted">[Database]</span> LocalStorage sync finished. 100% operational.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ==================== FOOTER ==================== -->
+        <footer class="glass-panel border-t border-white/5 py-4 px-8 text-center text-xs text-themeTextMuted flex flex-wrap justify-between items-center gap-4">
+            <p>ماتیاس (Matthias v13.0 Ultimate) - تمامی حقوق محفوظ است © ۲۰۲۶</p>
+            <p class="text-themeGold">طراحی شده برای عاشقان مانهوا و دنیای دارک فانتزی</p>
+        </footer>
+
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- MODAL 1: DETAIL INSPECTION MODAL (Ultra Detailed Manhwa View) -->
+    <!-- ========================================================================= -->
+    <div id="detail-modal" class="fixed inset-0 bg-black/85 backdrop-blur-xl hidden items-center justify-center p-4 z-50 transition-all">
+        <div class="glass-panel w-full max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar rounded-3xl p-6 md:p-8 space-y-6 relative border border-themeBorder shadow-card-depth">
+            <!-- Close Button -->
+            <button onclick="closeDetailModal()" class="absolute top-5 left-5 text-themeTextMuted hover:text-themeGold text-2xl w-10 h-10 rounded-xl bg-black/40 flex items-center justify-center transition">&times;</button>
+
+            <!-- Header Info -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Cover Image Card -->
+                <div class="book-container flex justify-center">
+                    <div class="book-cover w-56 h-80 rounded-2xl overflow-hidden shadow-3d-book border border-themeBorder relative">
+                        <img id="detail-cover" src="" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- Text & Metadata Specs -->
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span id="detail-status" class="bg-themeGold/20 text-themeGold border border-themeGold/30 text-[10px] px-3 py-1 rounded-full font-bold"></span>
+                        <span id="detail-translator" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] px-3 py-1 rounded-full font-bold"></span>
+                        <div class="flex items-center gap-1 text-amber-400 text-xs font-bold mr-auto" id="detail-rating-stars"></div>
+                    </div>
+
+                    <h2 id="detail-title" class="text-2xl font-black text-themeGold"></h2>
+                    <p id="detail-genre" class="text-xs text-themeTextMuted"></p>
+
+                    <!-- Progress Bar -->
+                    <div class="space-y-1.5 pt-2">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span>پیشرفت مطالعه:</span>
+                            <span id="detail-progress-text" class="text-themeGold"></span>
+                        </div>
+                        <div class="w-full bg-black/50 h-2.5 rounded-full overflow-hidden border border-white/5">
+                            <div id="detail-progress-bar" class="bg-gradient-to-r from-amber-500 to-yellow-300 h-full transition-all"></div>
+                        </div>
+                    </div>
+
+                    <!-- Synopsis -->
+                    <div>
+                        <h4 class="text-xs font-bold text-themeGold mb-1">خلاصه داستان:</h4>
+                        <p id="detail-synopsis" class="text-xs text-themeText leading-relaxed bg-black/30 p-3.5 rounded-xl border border-white/5 max-h-28 overflow-y-auto custom-scrollbar"></p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex items-center gap-3 pt-2">
+                        <button id="detail-read-btn" onclick="" class="flex-1 bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-black py-3 rounded-xl text-xs transition shadow-gold-glow flex items-center justify-center gap-2">
+                            <i class="fas fa-book-open"></i> شروع یا ادامه مطالعه
+                        </button>
+                        <button id="detail-download-btn" onclick="" class="glass-card hover:border-themeGold text-themeGold px-4 py-3 rounded-xl text-xs font-bold">
+                            <i class="fas fa-download"></i> دانلود
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter Picker & List Section -->
+            <div class="border-t border-themeBorder pt-6 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-sm font-bold text-themeGold flex items-center gap-2">
+                        <i class="fas fa-list-ol"></i> لیست چپترهای موجود
+                    </h3>
+                    <span id="detail-chapter-count" class="text-xs text-themeTextMuted"></span>
+                </div>
+
+                <div id="detail-chapter-list" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2.5 max-h-48 overflow-y-auto custom-scrollbar p-1">
+                    <!-- Chapter buttons rendered dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- MODAL 2: INTERACTIVE WEBTOON READER MODAL -->
+    <!-- ========================================================================= -->
+    <div id="reader-modal" class="fixed inset-0 bg-black hidden z-50 flex-col transition-all">
+        <!-- Reader Toolbar -->
+        <div class="p-3.5 border-b border-white/10 flex justify-between items-center bg-black/90 backdrop-blur-md sticky top-0 z-20">
+            <div class="flex items-center gap-4">
+                <h3 id="reader-title" class="font-bold text-themeGold text-xs md:text-sm truncate max-w-[200px] md:max-w-xs">خواننده مانهوا</h3>
+                <span id="reader-chapter-label" class="text-xs bg-themeGold/20 text-themeGold px-2.5 py-1 rounded-lg border border-themeGold/30"></span>
+            </div>
+
+            <!-- Reader Controls -->
+            <div class="flex items-center gap-2 md:gap-3 text-xs">
+                <!-- Auto Scroll Toggle & Speed Slider -->
+                <div class="hidden sm:flex items-center gap-2 bg-black/50 px-3 py-1.5 rounded-xl border border-white/10">
+                    <button onclick="toggleAutoScroll()" id="autoscroll-btn" class="text-themeTextMuted hover:text-themeGold flex items-center gap-1.5 font-bold">
+                        <i class="fas fa-play" id="autoscroll-icon"></i> اسکرول
+                    </button>
+                    <input type="range" id="autoscroll-speed" min="1" max="10" value="3" class="w-16 accent-themeGold" title="سرعت اسکرول">
+                </div>
+
+                <!-- Brightness Slider -->
+                <div class="hidden md:flex items-center gap-1.5 bg-black/50 px-3 py-1.5 rounded-xl border border-white/10">
+                    <i class="fas fa-sun text-themeGold"></i>
+                    <input type="range" min="20" max="100" value="100" onchange="changeBrightness(this.value)" class="w-16 accent-themeGold">
+                </div>
+
+                <!-- Background Theme Picker -->
+                <select id="reader-bg-theme" onchange="changeReaderTheme(this.value)" class="bg-black border border-white/20 text-themeText px-2.5 py-1.5 rounded-xl text-xs">
+                    <option value="dark">مشکی مطلق</option>
+                    <option value="moss">سبز لجنی</option>
+                    <option value="sepia">کرمی (Sepia)</option>
+                </select>
+
+                <!-- Fullscreen Toggle -->
+                <button onclick="toggleFullScreen()" class="glass-card hover:border-themeGold text-themeText px-3 py-1.5 rounded-xl"><i class="fas fa-expand"></i></button>
+
+                <!-- Close Reader -->
+                <button onclick="closeReader()" class="bg-rose-500/20 text-rose-400 hover:bg-rose-500/40 px-3 py-1.5 rounded-xl font-bold text-base">&times;</button>
+            </div>
+        </div>
+
+        <!-- Reader Canvas Container -->
+        <div id="reader-container" class="flex-1 overflow-y-auto p-4 flex flex-col items-center gap-3 custom-scrollbar bg-black transition-all">
+            <!-- Simulated webtoon image strips -->
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000" class="max-w-2xl w-full rounded-xl shadow-2xl border border-white/5">
+            <img src="https://images.unsplash.com/photo-1563089145-599997674d42?w=1000" class="max-w-2xl w-full rounded-xl shadow-2xl border border-white/5">
+            <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1000" class="max-w-2xl w-full rounded-xl shadow-2xl border border-white/5">
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- MODAL 3: DOWNLOAD CENTER MODAL -->
+    <!-- ========================================================================= -->
+    <div id="download-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+        <div class="glass-panel w-full max-w-md p-6 rounded-3xl space-y-5 border border-themeBorder shadow-card-depth">
+            <div class="flex justify-between items-center border-b border-themeBorder pb-3">
+                <h3 id="modal-manhwa-title" class="font-bold text-themeGold text-sm">دانلود چپترهای مانهوا</h3>
+                <button onclick="closeDownloadModal()" class="text-themeTextMuted hover:text-themeGold text-xl">&times;</button>
+            </div>
+            
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="block text-themeTextMuted mb-2 font-bold">بازه چپترهای مورد نظر:</label>
+                    <div class="flex items-center gap-3">
+                        <input type="number" id="dl-from" value="1" class="w-1/2 bg-black/50 border border-themeBorder p-3 rounded-xl text-center text-themeText">
+                        <span class="text-themeTextMuted">تا</span>
+                        <input type="number" id="dl-to" value="10" class="w-1/2 bg-black/50 border border-themeBorder p-3 rounded-xl text-center text-themeText">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-themeTextMuted mb-2 font-bold">فرمت خروجی فایل:</label>
+                    <select id="dl-format" class="w-full bg-black/50 border border-themeBorder p-3 rounded-xl text-themeText">
+                        <option value="zip">فایل فشرده (ZIP Archive)</option>
+                        <option value="cbz">کمیک دیجیتال (CBZ Format)</option>
+                        <option value="pdf">سند PDF تک فایلی</option>
+                    </select>
+                </div>
+
+                <!-- Progress Bar Container -->
+                <div id="dl-progress-box" class="hidden space-y-2 pt-2">
+                    <div class="flex justify-between text-[10px] text-themeTextMuted">
+                        <span id="dl-status-text">در حال دانلود و بسته‌بندی...</span>
+                        <span id="dl-percentage">0%</span>
+                    </div>
+                    <div class="w-full bg-black/60 h-2.5 rounded-full overflow-hidden border border-white/5">
+                        <div id="dl-bar" class="bg-gradient-to-r from-amber-500 to-yellow-300 h-full w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+
+                <button onclick="startDownloadProcess()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-black py-3.5 rounded-xl text-xs transition shadow-gold-glow">
+                    شروع دانلود سریع
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- MODAL 4: THEME CUSTOMIZER MODAL -->
+    <!-- ========================================================================= -->
+    <div id="theme-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+        <div class="glass-panel w-full max-w-md p-6 rounded-3xl space-y-5 border border-themeBorder shadow-card-depth">
+            <div class="flex justify-between items-center border-b border-themeBorder pb-3">
+                <h3 class="font-bold text-themeGold text-sm flex items-center gap-2">
+                    <i class="fas fa-palette"></i> انتخاب پوسته دیداری (Theme)
+                </h3>
+                <button onclick="closeThemeModal()" class="text-themeTextMuted hover:text-themeGold text-xl">&times;</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+                <!-- Theme 1 -->
+                <button onclick="setAppTheme('default')" class="glass-card p-4 rounded-2xl flex flex-col items-center gap-2 border hover:border-amber-400 transition">
+                    <div class="w-8 h-8 rounded-full bg-emerald-950 border-2 border-amber-400"></div>
+                    <span class="font-bold">Gothic Emerald & Gold</span>
+                </button>
+                <!-- Theme 2 -->
+                <button onclick="setAppTheme('cyber')" class="glass-card p-4 rounded-2xl flex flex-col items-center gap-2 border hover:border-cyan-400 transition">
+                    <div class="w-8 h-8 rounded-full bg-slate-900 border-2 border-cyan-400"></div>
+                    <span class="font-bold">Cyber Neon Mint</span>
+                </button>
+                <!-- Theme 3 -->
+                <button onclick="setAppTheme('ruby')" class="glass-card p-4 rounded-2xl flex flex-col items-center gap-2 border hover:border-rose-500 transition">
+                    <div class="w-8 h-8 rounded-full bg-rose-950 border-2 border-rose-500"></div>
+                    <span class="font-bold">Obsidian & Ruby</span>
+                </button>
+                <!-- Theme 4 -->
+                <button onclick="setAppTheme('royal')" class="glass-card p-4 rounded-2xl flex flex-col items-center gap-2 border hover:border-purple-400 transition">
+                    <div class="w-8 h-8 rounded-full bg-purple-950 border-2 border-purple-400"></div>
+                    <span class="font-bold">Royal Velvet Purple</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Rain Sound -->
+    <audio id="ambient-audio" loop src="https://assets.mixkit.co/active_storage/sfx/2513/2513-preview.mp3"></audio>
+
+    <!-- ========================================================================= -->
+    <!-- JAVASCRIPT LOGIC ENGINE -->
+    <!-- ========================================================================= -->
+    <script>
+        // Default Mock Data
+        let manhwaData = JSON.parse(localStorage.getItem('matthias_v13_db')) || [
+            {
+                id: 1,
+                title: "سولو لولینگ (Solo Leveling)",
+                genre: "اکشن، سیستم",
+                chapters: 179,
+                readCh: 85,
+                price: 65000,
+                status: "کامل شده",
+                rating: 4.9,
+                translator: "تیم ماتیاس",
+                isFav: true,
+                cover: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500",
+                synopsis: "ده سال پیش، پس از باز شدن دروازه‌ای که دنیای واقعی را به قلمرو هیولاها وصل می‌کرد، انسان‌هایی قدرتمند با نام شکارچی بیدار شدند..."
+            },
+            {
+                id: 2,
+                title: "آغاز پس از پایان (TBATE)",
+                genre: "فانتزی، تناسخ",
+                chapters: 175,
+                readCh: 120,
+                price: 55000,
+                status: "در حال انتشار",
+                rating: 4.8,
+                translator: "آریا ساب",
+                isFav: false,
+                cover: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500",
+                synopsis: "پادشاه گری در دنیایی که با شمشیر و جادو اداره می‌شود، شانس دوباره‌ای برای زندگی به عنوان آرتر پندراگون پیدا می‌کند..."
+            },
+            {
+                id: 3,
+                title: "بازگشت فرقه هوئشان",
+                genre: "رزمی، تناسخ",
+                chapters: 120,
+                readCh: 40,
+                price: 40000,
+                status: "در حال انتشار",
+                rating: 4.7,
+                translator: "پرشین مانگا",
+                isFav: true,
+                cover: "https://images.unsplash.com/photo-1563089145-599997674d42?w=500",
+                synopsis: "چئونگ میونگ، سیزدهمین مرید فرقه هوئشان، پس از شکست دادن شیطان بزرگ ۱۰۰ سال بعد در بدن کودکی بیدار می‌شود..."
+            }
+        ];
+
+        let currentViewMode = 'grid';
+        let activeTab = 'library';
+        let isAutoScrolling = false;
+        let autoScrollInterval = null;
+        let isAmbientPlaying = false;
+        let selectedManhwaId = null;
+
+        // Save data to LocalStorage
+        function saveToStorage() {
+            localStorage.setItem('matthias_v13_db', JSON.stringify(manhwaData));
+        }
+
+        // Particle Canvas Animation Background
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(226, 185, 59, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 40; i++) particles.push(new Particle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Switch App Tabs
+        function switchTab(tabName) {
+            ['library', 'add', 'analytics', 'telegram'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`tab-btn-${t}`).classList.remove('active', 'text-themeGold');
+                document.getElementById(`tab-btn-${t}`).classList.add('text-themeTextMuted');
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabName}`);
+            activeBtn.classList.add('active', 'text-themeGold');
+            activeBtn.classList.remove('text-themeTextMuted');
+            activeTab = tabName;
+
+            if (tabName === 'analytics') updateAnalytics();
+        }
+
+        // Render Library Items
+        function renderLibrary(data) {
+            const container = document.getElementById('manhwa-container');
+            document.getElementById('badge-count-lib').innerText = data.length;
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = `<div class="col-span-full py-12 text-center text-themeTextMuted text-xs">هیچ مانهوایی یافت نشد.</div>`;
+                return;
+            }
+
+            if (currentViewMode === 'grid') {
+                container.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6";
+                data.forEach(item => {
+                    let percent = Math.round((item.readCh / item.chapters) * 100) || 0;
+                    container.innerHTML += `
+                        <div class="glass-card rounded-2xl overflow-hidden hover:border-themeGold/60 transition-all duration-300 flex flex-col group shadow-card-depth hover:-translate-y-1.5">
+                            <!-- Book Cover with 3D Effect -->
+                            <div class="book-container p-3 flex justify-center bg-black/40">
+                                <div class="book-cover w-full h-64 rounded-xl overflow-hidden shadow-3d-book relative">
+                                    <img src="${item.cover}" class="w-full h-full object-cover">
+                                    <!-- Favorite Star -->
+                                    <button onclick="toggleFav(event, ${item.id})" class="absolute top-2 left-2 bg-black/60 backdrop-blur-md w-8 h-8 rounded-lg flex items-center justify-center text-themeGold transition hover:scale-110 border border-white/10">
+                                        <i class="${item.isFav ? 'fas text-themeGold' : 'far text-white'} fa-star"></i>
+                                    </button>
+                                    <span class="absolute top-2 right-2 bg-themeGold text-black font-black text-[10px] px-2 py-0.5 rounded-md shadow-md">${item.chapters} چپتر</span>
+                                </div>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1 text-[10px]">
+                                        <span class="bg-themeGold/20 text-themeGold border border-themeGold/30 px-2 py-0.5 rounded">${item.status}</span>
+                                        <span class="text-amber-400 font-bold"><i class="fas fa-star text-[9px]"></i> ${item.rating}</span>
+                                    </div>
+                                    <h3 onclick="openDetailModal(${item.id})" class="font-bold text-themeText text-sm line-clamp-1 hover:text-themeGold cursor-pointer transition">${item.title}</h3>
+                                    <p class="text-[11px] text-themeTextMuted mt-0.5">${item.genre}</p>
+
+                                    <!-- Progress bar -->
+                                    <div class="space-y-1 mt-3">
+                                        <div class="flex justify-between text-[10px] text-themeTextMuted">
+                                            <span>پیشرفت:</span>
+                                            <span>${percent}%</span>
+                                        </div>
+                                        <div class="w-full bg-black/50 h-1.5 rounded-full overflow-hidden border border-white/5">
+                                            <div class="bg-themeGold h-full" style="width: ${percent}%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card Footer Actions -->
+                                <div class="flex items-center gap-2 pt-2 border-t border-white/5">
+                                    <button onclick="openDetailModal(${item.id})" class="flex-1 bg-themeGold/20 hover:bg-themeGold text-themeGold hover:text-black py-2 rounded-xl text-xs font-bold transition border border-themeGold/30 flex items-center justify-center gap-1">
+                                        <i class="fas fa-eye"></i> جزئیات
+                                    </button>
+                                    <button onclick="openDownloadModal('${item.title}', ${item.chapters})" class="glass-card hover:border-themeGold text-themeGold p-2 rounded-xl text-xs transition" title="دانلود">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                    <button onclick="deleteItem(${item.id})" class="bg-rose-500/10 hover:bg-rose-500/30 text-rose-400 p-2 rounded-xl text-xs transition" title="حذف">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                container.className = "space-y-3";
+                data.forEach(item => {
+                    container.innerHTML += `
+                        <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between gap-4 border hover:border-themeGold/50 transition">
+                            <div class="flex items-center gap-4">
+                                <img src="${item.cover}" class="w-12 h-14 rounded-lg object-cover">
+                                <div>
+                                    <h4 onclick="openDetailModal(${item.id})" class="font-bold text-themeText text-sm hover:text-themeGold cursor-pointer">${item.title}</h4>
+                                    <p class="text-xs text-themeTextMuted">ژانر: ${item.genre} | چپتر کل: ${item.chapters} | امتیاز: ⭐ ${item.rating}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="openDetailModal(${item.id})" class="bg-themeGold text-black px-3.5 py-1.5 rounded-xl text-xs font-bold">نمایش</button>
+                                <button onclick="deleteItem(${item.id})" class="bg-rose-500/20 text-rose-300 px-2.5 py-1.5 rounded-xl text-xs"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // Open Detail Modal
+        function openDetailModal(id) {
+            selectedManhwaId = id;
+            const item = manhwaData.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('detail-cover').src = item.cover;
+            document.getElementById('detail-title').innerText = item.title;
+            document.getElementById('detail-status').innerText = item.status;
+            document.getElementById('detail-translator').innerText = item.translator || 'تیم ترجمه ماتیاس';
+            document.getElementById('detail-genre').innerText = `ژانرها: ${item.genre}`;
+            document.getElementById('detail-synopsis').innerText = item.synopsis || 'توضیحاتی برای این مانهوا ثبت نشده است.';
+
+            let percent = Math.round((item.readCh / item.chapters) * 100) || 0;
+            document.getElementById('detail-progress-text').innerText = `${item.readCh} از ${item.chapters} چپتر (${percent}%)`;
+            document.getElementById('detail-progress-bar').style.width = `${percent}%`;
+
+            // Stars
+            let starsHtml = '';
+            for (let s = 1; s <= 5; s++) {
+                starsHtml += `<i class="${s <= Math.floor(item.rating) ? 'fas' : 'far'} fa-star"></i>`;
+            }
+            starsHtml += `<span class="text-themeText mr-1">(${item.rating})</span>`;
+            document.getElementById('detail-rating-stars').innerHTML = starsHtml;
+
+            // Chapter List Buttons
+            const chList = document.getElementById('detail-chapter-list');
+            document.getElementById('detail-chapter-count').innerText = `مجموع: ${item.chapters} چپتر`;
+            chList.innerHTML = '';
+            for (let c = 1; c <= Math.min(item.chapters, 36); c++) {
+                let isRead = c <= item.readCh;
+                chList.innerHTML += `
+                    <button onclick="readChapter(${item.id}, ${c})" class="p-2 rounded-xl text-xs font-bold border transition ${isRead ? 'bg-themeGold/20 border-themeGold/40 text-themeGold' : 'glass-card border-white/5 text-themeTextMuted hover:border-themeGold'}">
+                        چپتر ${c} ${isRead ? '✓' : ''}
+                    </button>
+                `;
+            }
+
+            document.getElementById('detail-read-btn').onclick = () => readChapter(item.id, item.readCh + 1 || 1);
+            document.getElementById('detail-download-btn').onclick = () => openDownloadModal(item.title, item.chapters);
+
+            document.getElementById('detail-modal').classList.remove('hidden');
+            document.getElementById('detail-modal').classList.add('flex');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+            document.getElementById('detail-modal').classList.remove('flex');
+        }
+
+        function readChapter(manhwaId, chapterNum) {
+            const item = manhwaData.find(i => i.id === manhwaId);
+            if (item) {
+                if (chapterNum > item.readCh) item.readCh = chapterNum;
+                saveToStorage();
+                renderLibrary(manhwaData);
+            }
+            closeDetailModal();
+            openReader(item ? item.title : 'مانهوا', chapterNum);
+        }
+
+        // Dynamic Filtering
+        function filterLibrary() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+            const genreFilter = document.getElementById('genre-filter').value;
+            const sortFilter = document.getElementById('sort-filter').value;
+
+            let filtered = manhwaData.filter(i => {
+                let matchesQuery = i.title.toLowerCase().includes(query) || (i.genre && i.genre.toLowerCase().includes(query));
+                let matchesStatus = true;
+                if (statusFilter === 'FAV') matchesStatus = i.isFav;
+                if (statusFilter === 'COMPLETED') matchesStatus = i.status === 'کامل شده';
+                if (statusFilter === 'ONGOING') matchesStatus = i.status === 'در حال انتشار';
+
+                let matchesGenre = genreFilter === 'ALL' || (i.genre && i.genre.includes(genreFilter));
+
+                return matchesQuery && matchesStatus && matchesGenre;
+            });
+
+            // Sorting
+            if (sortFilter === 'RATING') filtered.sort((a, b) => b.rating - a.rating);
+            if (sortFilter === 'CHAPTERS') filtered.sort((a, b) => b.chapters - a.chapters);
+            if (sortFilter === 'PRICE') filtered.sort((a, b) => b.price - a.price);
+
+            renderLibrary(filtered);
+        }
+
+        // Add Manual Manhwa
+        function addNewManhwaManual() {
+            const title = document.getElementById('new-title').value;
+            const chapters = parseInt(document.getElementById('new-chapters').value) || 1;
+            const price = parseInt(document.getElementById('new-price').value) || 0;
+            const genre = document.getElementById('new-genre').value || 'عمومی';
+            const translator = document.getElementById('new-translator').value || 'تیم ماتیاس';
+            const status = document.getElementById('new-status').value;
+            const rating = parseFloat(document.getElementById('new-rating').value) || 4.5;
+            const cover = document.getElementById('new-cover').value || "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500";
+            const synopsis = document.getElementById('new-synopsis').value;
+
+            if (!title) { alert('لطفا عنوان مانهوا را وارد کنید.'); return; }
+
+            manhwaData.push({
+                id: Date.now(),
+                title, chapters, readCh: 0, price, status, genre, translator, rating, cover, synopsis, isFav: false
+            });
+
+            saveToStorage();
+            renderLibrary(manhwaData);
+            switchTab('library');
+            logTerminal(`[Database] Manhwa added: ${title}`);
+            alert('مانهوا با موفقیت ثبت شد!');
+        }
+
+        function updateCoverPreview(url) {
+            document.getElementById('add-cover-preview').src = url || "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500";
+        }
+
+        function deleteItem(id) {
+            if (confirm('آیا از حذف این عنوان اطمینان دارید؟')) {
+                manhwaData = manhwaData.filter(i => i.id !== id);
+                saveToStorage();
+                renderLibrary(manhwaData);
+                logTerminal(`[Database] Item deleted ID: ${id}`);
+            }
+        }
+
+        function toggleFav(e, id) {
+            e.stopPropagation();
+            let item = manhwaData.find(i => i.id === id);
+            if (item) {
+                item.isFav = !item.isFav;
+                saveToStorage();
+                filterLibrary();
+            }
+        }
+
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            document.getElementById('view-grid-btn').className = mode === 'grid' ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-themeGold text-black transition shadow-md" : "px-3 py-1.5 rounded-lg text-xs font-bold text-themeTextMuted hover:text-themeText transition";
+            document.getElementById('view-list-btn').className = mode === 'list' ? "px-3 py-1.5 rounded-lg text-xs font-bold bg-themeGold text-black transition shadow-md" : "px-3 py-1.5 rounded-lg text-xs font-bold text-themeTextMuted hover:text-themeText transition";
+            renderLibrary(manhwaData);
+        }
+
+        // Theme Customizer
+        function openThemeModal() { document.getElementById('theme-modal').classList.remove('hidden'); document.getElementById('theme-modal').classList.add('flex'); }
+        function closeThemeModal() { document.getElementById('theme-modal').classList.add('hidden'); document.getElementById('theme-modal').classList.remove('flex'); }
+
+        function setAppTheme(theme) {
+            document.body.classList.remove('theme-cyber', 'theme-ruby', 'theme-royal');
+            if (theme === 'cyber') document.body.classList.add('theme-cyber');
+            if (theme === 'ruby') document.body.classList.add('theme-ruby');
+            if (theme === 'royal') document.body.classList.add('theme-royal');
+            closeThemeModal();
+        }
+
+        // Reader Engine
+        function openReader(title, chapter) {
+            document.getElementById('reader-title').innerText = title;
+            document.getElementById('reader-chapter-label').innerText = `چپتر ${chapter}`;
+            document.getElementById('reader-modal').classList.remove('hidden');
+            document.getElementById('reader-modal').classList.add('flex');
+        }
+
+        function closeReader() {
+            if (isAutoScrolling) toggleAutoScroll();
+            document.getElementById('reader-modal').classList.add('hidden');
+            document.getElementById('reader-modal').classList.remove('flex');
+        }
+
+        function toggleAutoScroll() {
+            const container = document.getElementById('reader-container');
+            const icon = document.getElementById('autoscroll-icon');
+            const speed = parseInt(document.getElementById('autoscroll-speed').value) || 3;
+
+            if (!isAutoScrolling) {
+                isAutoScrolling = true;
+                icon.className = "fas fa-pause text-themeGold";
+                autoScrollInterval = setInterval(() => {
+                    container.scrollTop += speed;
+                }, 30);
+            } else {
+                isAutoScrolling = false;
+                icon.className = "fas fa-play";
+                clearInterval(autoScrollInterval);
+            }
+        }
+
+        function changeBrightness(val) {
+            document.getElementById('reader-container').style.filter = `brightness(${val}%)`;
+        }
+
+        function changeReaderTheme(theme) {
+            const container = document.getElementById('reader-container');
+            if (theme === 'dark') container.className = "flex-1 overflow-y-auto p-4 flex flex-col items-center gap-3 custom-scrollbar bg-black transition-all";
+            if (theme === 'moss') container.className = "flex-1 overflow-y-auto p-4 flex flex-col items-center gap-3 custom-scrollbar bg-[#050e06] transition-all";
+            if (theme === 'sepia') container.className = "flex-1 overflow-y-auto p-4 flex flex-col items-center gap-3 custom-scrollbar bg-[#f4ecd8] transition-all";
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) document.getElementById('reader-modal').requestFullscreen();
+            else document.exitFullscreen();
+        }
+
+        // Download Modal
+        function openDownloadModal(title, chapters) {
+            document.getElementById('modal-manhwa-title').innerText = `دانلود: ${title}`;
+            document.getElementById('dl-to').value = chapters;
+            document.getElementById('download-modal').classList.remove('hidden');
+            document.getElementById('download-modal').classList.add('flex');
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('download-modal').classList.add('hidden');
+            document.getElementById('download-modal').classList.remove('flex');
+        }
+
+        function startDownloadProcess() {
+            const box = document.getElementById('dl-progress-box');
+            const bar = document.getElementById('dl-bar');
+            const pct = document.getElementById('dl-percentage');
+            box.classList.remove('hidden');
+
+            let p = 0;
+            let inv = setInterval(() => {
+                p += 20;
+                bar.style.width = `${p}%`;
+                pct.innerText = `${p}%`;
+                if (p >= 100) {
+                    clearInterval(inv);
+                    setTimeout(() => {
+                        alert('فایل آرشیو با موفقیت آماده و روی مرورگر شما ذخیره شد.');
+                        closeDownloadModal();
+                        box.classList.add('hidden');
+                        bar.style.width = '0%';
+                    }, 400);
+                }
+            }, 150);
+        }
+
+        // Ambient Audio
+        function toggleAmbientSound() {
+            const audio = document.getElementById('ambient-audio');
+            const icon = document.getElementById('ambient-icon');
+            const text = document.getElementById('ambient-text');
+            if (!isAmbientPlaying) {
+                audio.play();
+                isAmbientPlaying = true;
+                icon.className = "fas fa-volume-up text-themeGold";
+                text.innerText = "صدا: فعال";
+            } else {
+                audio.pause();
+                isAmbientPlaying = false;
+                icon.className = "fas fa-volume-mute";
+                text.innerText = "صداهای محیطی";
+            }
+        }
+
+        // Telegram Webhook Simulator
+        async function syncWithTelegram() {
+            logTerminal("[Telegram] Connecting to webhook http://127.0.0.1:5000/api/manhwas ...");
+            try {
+                let res = await fetch('http://127.0.0.1:5000/api/manhwas');
+                let data = await res.json();
+                if (data && data.length > 0) {
+                    manhwaData = data;
+                    saveToStorage();
+                    renderLibrary(manhwaData);
+                    logTerminal(`[Telegram] Successfully synced ${data.length} items from Telegram server.`);
+                    alert(`✅ همگام‌سازی انجام شد! ${data.length} عنوان بارگذاری گردید.`);
+                }
+            } catch (err) {
+                logTerminal("[Telegram Warning] Server offline. Using cached LocalStorage data.");
+                alert('سرور محلی پاسخ نداد (اطلاعات ذخیره شده در مرورگر نمایش داده می‌شوند).');
+            }
+        }
+
+        function logTerminal(msg) {
+            const term = document.getElementById('terminal-log');
+            const time = new Date().toLocaleTimeString();
+            term.innerHTML += `<div><span class="text-themeTextMuted">[${time}]</span> ${msg}</div>`;
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function clearTerminal() {
+            document.getElementById('terminal-log').innerHTML = '';
+        }
+
+        // Analytics Updates
+        function updateAnalytics() {
+            let totalCh = manhwaData.reduce((a, b) => a + (b.chapters || 0), 0);
+            let readCh = manhwaData.reduce((a, b) => a + (b.readCh || 0), 0);
+            let totalVal = manhwaData.reduce((a, b) => a + (b.price || 0), 0);
+
+            document.getElementById('stat-total-ch').innerText = totalCh;
+            document.getElementById('stat-total-val').innerText = `${totalVal.toLocaleString()} تومان`;
+            document.getElementById('stat-avg-price').innerText = `${(totalCh ? Math.round(totalVal / totalCh) : 0).toLocaleString()} تومان`;
+            document.getElementById('stat-progress-pct').innerText = `${totalCh ? Math.round((readCh / totalCh) * 100) : 0}٪`;
+
+            // Genre Bars Chart
+            const genreBars = document.getElementById('chart-genre-bars');
+            let genreCounts = {};
+            manhwaData.forEach(item => {
+                let g = item.genre ? item.genre.split('،')[0].trim() : 'عمومی';
+                genreCounts[g] = (genreCounts[g] || 0) + 1;
+            });
+
+            genreBars.innerHTML = '';
+            Object.keys(genreCounts).forEach(g => {
+                let pct = Math.round((genreCounts[g] / manhwaData.length) * 100);
+                genreBars.innerHTML += `
+                    <div class="space-y-1">
+                        <div class="flex justify-between">
+                            <span>${g}</span>
+                            <span class="text-themeGold font-bold">${pct}% (${genreCounts[g]} عنوان)</span>
+                        </div>
+                        <div class="w-full bg-black/50 h-2 rounded-full overflow-hidden border border-white/5">
+                            <div class="bg-themeGold h-full" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Top Valued List
+            const topVal = document.getElementById('chart-top-value');
+            let sorted = [...manhwaData].sort((a, b) => b.price - a.price).slice(0, 3);
+            topVal.innerHTML = '';
+            sorted.forEach(item => {
+                topVal.innerHTML += `
+                    <div class="flex justify-between items-center bg-black/30 p-2.5 rounded-xl border border-white/5">
+                        <span class="font-bold text-themeText">${item.title}</span>
+                        <span class="text-themeGold font-bold">${item.price.toLocaleString()} تومان</span>
+                    </div>
+                `;
+            });
+        }
+
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(manhwaData, null, 2));
+            const dl = document.createElement('a');
+            dl.setAttribute("href", dataStr);
+            dl.setAttribute("download", "matthias_v13_backup.json");
+            document.body.appendChild(dl);
+            dl.click();
+            dl.remove();
+        }
+
+        // Initialize Library on Startup
+        renderLibrary(manhwaData);
+    </script>
+</body>
+</html>

@@ -88,7 +88,7 @@ def add_manhwa_manual():
     save_db(db)
     return jsonify({"status": "success", "message": "با موفقیت ذخیره شد"})
 
-@app.route(f'/webhook/{TOKEN}', methods=['POST'])
+@app.route('/webhook', methods=['POST'])
 def telegram_webhook():
     update = request.get_json()
     if not update:
@@ -100,7 +100,6 @@ def telegram_webhook():
     photo = message.get("photo")
     document = message.get("document")
     
-    # استخراج نام و چپتر از متن پیام
     title = text.split("-")[0].strip() if "-" in text else text.strip()
     if len(title) > 35:
         title = "مانهوای آرشیو جدید"

@@ -1299,5 +1299,51 @@
         // Initialize Library on Startup
         renderLibrary(manhwaData);
     </script>
+    <script>
+        // متغیر جامع برای نگهداری اطلاعات مانهواها
+        let manhwaData = [];
+
+        // دریافت آنلاین اطلاعات از سرور ابری Render
+        async function fetchManhwas() {
+            try {
+                let response = await fetch('/api/manhwas');
+                manhwaData = await response.json();
+                
+                // رندر کردن لیست کتابخانه و آمار مالی با داده‌های جدید
+                if (typeof renderLibrary === 'function') {
+                    renderLibrary(manhwaData);
+                }
+                if (typeof updateStatistics === 'function') {
+                    updateStatistics(manhwaData);
+                }
+            } catch (error) {
+                console.error("خطا در دریافت اطلاعات از سرور:", error);
+            }
+        }
+
+        // دکمه همگام‌سازی بالای سایت
+        async function syncWithTelegram() {
+            const btn = event.currentTarget;
+            if (btn) btn.classList.add('animate-pulse');
+            await fetchManhwas();
+            if (btn) setTimeout(() => btn.classList.remove('animate-pulse'), 1000);
+        }
+
+        // تابع پشتیبان‌گیری از اطلاعات
+        function exportData() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(manhwaData, null, 2));
+            const dl = document.createElement('a');
+            dl.setAttribute("href", dataStr);
+            dl.setAttribute("download", "matthias_v13_backup.json");
+            document.body.appendChild(dl);
+            dl.click();
+            dl.remove();
+        }
+
+        // اجرا به محض بارگذاری کامل صفحه
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchManhwas();
+        });
+    </script>
 </body>
 </html>
